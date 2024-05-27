@@ -1,22 +1,26 @@
-pub fn group_string_in_arr(s: &str) -> Vec<String> {
-    let mut arr = Vec::new();
-    let mut i = 0;
-    let mut in_memory_str: String = String::new();
-    while i < s.len() {
-        if s.len() % 2 != 0 && i == s.len() - 1 {
-            let first_char = s.chars().nth(i);
-            println!("char:: {:?}", first_char );
-            in_memory_str.push_str(&s[i..i+1]);
-            in_memory_str.push_str("_");
-            arr.push(in_memory_str);
-            break;
-        }
-        let substring_of_two = &s[i..i+2];
-        arr.push(substring_of_two.to_string());
-        i += 2;
-    }
-    arr
+mod arrays;
+mod stringss;
+
+use arrays::{
+    index_of_given_value, 
+    my_arrays
+};
+
+use stringss::_strings::{
+    group_string_in_arr,
+    guessing_game
+};
+
+fn main() {
+    println!("{:?}", group_string_in_arr("abcdefgh"));
+    println!("{:?}", group_string_in_arr("abcdefghi"));
+    println!("{:?}", group_string_in_arr("_"));
+    println!("{}", index_of_given_value([1, 2, 3, 4], 8));
+    println!("{}", index_of_given_value([1, 2, 3, 4], 3));
+    my_arrays([1, 2, 3, 4]);
+    guessing_game();
 }
+
 
 #[cfg(test)]
 mod tests {
@@ -29,13 +33,18 @@ mod tests {
         assert_eq!(group_string_in_arr("python"), vec!["py", "th", "on"]);
         assert_eq!(group_string_in_arr("rust"), vec!["ru", "st"]);
         assert_eq!(group_string_in_arr("a"), vec!["a_"]);
-        assert_eq!(group_string_in_arr(""), Vec::<String>::new());
-        
+        assert_eq!(group_string_in_arr(""), Vec::<String>::new());        
+    }
+
+    #[test]
+    fn test_arrays(){
+        assert_eq!(my_arrays([1, 2, 3, 4]), ());
+    }
+
+    #[test]
+    fn test_index_of_given_value(){
+        assert_eq!(index_of_given_value([1, 2, 3, 4], 3), 2);
+        assert_eq!(index_of_given_value([1, 2, 3, 4], 5), -1);
     }
 }
 
-fn main() {
-    println!("{:?}", group_string_in_arr("abcdefgh"));
-    println!("{:?}", group_string_in_arr("abcdefghi"));
-    println!("{:?}", group_string_in_arr(""));
-}
